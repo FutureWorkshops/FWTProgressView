@@ -1,3 +1,9 @@
+# Ruby
+tmp/
+log/
+db/production.sqlite3
+db/development.sqlite3
+
 # Xcode
 build/*
 *.pbxuser
@@ -8,8 +14,23 @@ build/*
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-*.xcworkspace
 !default.xcworkspace
 xcuserdata
 profile
 *.moved-aside
+# Finder
+.DS_Store
+.svn
+*.swp
+*.~nib
+*.lock
+
+# Frank
+Frank/frankified_build/
+Frank/rerun.txt
+
+# Cocoapods
+/Pods/
+
+/.idea/
+/features
