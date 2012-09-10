@@ -5,7 +5,7 @@
 //  Created by Marco Meschini on 06/09/2012.
 //  Copyright (c) 2012 Marco Meschini. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "FWTProgressView.h"
 
 #define FWTPV_EXTRA_HEIGHT_DEFAULT     10.0f
@@ -253,9 +253,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     
     //
     self.sliderImageView.frame = self.backgroundContainerView.bounds;
-    CGRect bounds = self.backgroundContainerView.bounds;
-    bounds.size.width *= (1.0f - self.progress);
-    self.sliderImageView.bounds = bounds;
+    self.sliderImageView.bounds = [self _sliderBoundsForProgress:self.progress];
     
     //
     CGRect borderImageFrame = CGRectInset(self.bounds, .0f, 3.0f);
@@ -283,6 +281,13 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     return toReturn;
 }
 
+- (CGRect)_sliderBoundsForProgress:(CGFloat)progress
+{
+    CGRect toReturn = self.backgroundContainerView.bounds;
+    toReturn.size.width *= (1.0f - progress);
+    return toReturn;
+}
+
 #pragma mark - Application notifications
 - (void)_applicationDidEnterBackgroundNotification:(NSNotification *)notification
 {
@@ -305,21 +310,15 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     if (self->_progress != progress)
     {
         self->_progress = progress;
-        
-        void (^updateProgressImageBounds)() = ^{
-            CGRect bounds = self.backgroundContainerView.bounds;
-            bounds.size.width *= (1.0f - self->_progress);
-            self.sliderImageView.bounds = bounds;
-        };
-        
+                
         //
         [self _restoreAnimationWithProgress:self->_progress];
         
         //
         if (animated)
-            [UIView animateWithDuration:.25f animations:updateProgressImageBounds];
+            [UIView animateWithDuration:.25f animations:^{ self.sliderImageView.bounds = [self _sliderBoundsForProgress:self->_progress]; }];
         else
-            updateProgressImageBounds();
+            self.sliderImageView.bounds = [self _sliderBoundsForProgress:self->_progress];
     }
 }
 
@@ -328,7 +327,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     return [[[FWTProgressView alloc] init] autorelease];
 }
 
-#pragma mark - 
+#pragma mark - UIImage
 + (UIImage *)_patternImage
 {
     CGFloat baseWidth = 11.0f;
