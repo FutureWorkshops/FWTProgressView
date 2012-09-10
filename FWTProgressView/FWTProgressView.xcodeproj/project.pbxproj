@@ -1,0 +1,255 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A941B76815F8EA7900773E14 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A941B76715F8EA7900773E14 /* Foundation.framework */; };
+		A941B76D15F8EA7900773E14 /* FWTProgressView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = A941B76C15F8EA7900773E14 /* FWTProgressView.h */; };
+		A941B76F15F8EA7900773E14 /* FWTProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B76E15F8EA7900773E14 /* FWTProgressView.m */; };
+		A941B7A515F8EB1200773E14 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A941B7A415F8EB1200773E14 /* UIKit.framework */; };
+		A941B7A715F8EB2000773E14 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A941B7A615F8EB2000773E14 /* CoreGraphics.framework */; };
+		A941B7B315F8ECA500773E14 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A941B7B215F8ECA500773E14 /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A941B76215F8EA7900773E14 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				A941B76D15F8EA7900773E14 /* FWTProgressView.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A941B76415F8EA7900773E14 /* libFWTProgressView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFWTProgressView.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A941B76715F8EA7900773E14 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A941B76B15F8EA7900773E14 /* FWTProgressView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FWTProgressView-Prefix.pch"; sourceTree = "<group>"; };
+		A941B76C15F8EA7900773E14 /* FWTProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FWTProgressView.h; sourceTree = "<group>"; };
+		A941B76E15F8EA7900773E14 /* FWTProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FWTProgressView.m; sourceTree = "<group>"; };
+		A941B7A415F8EB1200773E14 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A941B7A615F8EB2000773E14 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A941B7B215F8ECA500773E14 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A941B76115F8EA7900773E14 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A941B7B315F8ECA500773E14 /* QuartzCore.framework in Frameworks */,
+				A941B7A715F8EB2000773E14 /* CoreGraphics.framework in Frameworks */,
+				A941B7A515F8EB1200773E14 /* UIKit.framework in Frameworks */,
+				A941B76815F8EA7900773E14 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A941B75915F8EA7900773E14 = {
+			isa = PBXGroup;
+			children = (
+				A941B76915F8EA7900773E14 /* FWTProgressView */,
+				A941B76615F8EA7900773E14 /* Frameworks */,
+				A941B76515F8EA7900773E14 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A941B76515F8EA7900773E14 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A941B76415F8EA7900773E14 /* libFWTProgressView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A941B76615F8EA7900773E14 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A941B7B215F8ECA500773E14 /* QuartzCore.framework */,
+				A941B7A615F8EB2000773E14 /* CoreGraphics.framework */,
+				A941B7A415F8EB1200773E14 /* UIKit.framework */,
+				A941B76715F8EA7900773E14 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A941B76915F8EA7900773E14 /* FWTProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				A941B76C15F8EA7900773E14 /* FWTProgressView.h */,
+				A941B76E15F8EA7900773E14 /* FWTProgressView.m */,
+				A941B76A15F8EA7900773E14 /* Supporting Files */,
+			);
+			path = FWTProgressView;
+			sourceTree = "<group>";
+		};
+		A941B76A15F8EA7900773E14 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A941B76B15F8EA7900773E14 /* FWTProgressView-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A941B76315F8EA7900773E14 /* FWTProgressView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A941B77215F8EA7900773E14 /* Build configuration list for PBXNativeTarget "FWTProgressView" */;
+			buildPhases = (
+				A941B76015F8EA7900773E14 /* Sources */,
+				A941B76115F8EA7900773E14 /* Frameworks */,
+				A941B76215F8EA7900773E14 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FWTProgressView;
+			productName = FWTProgressView;
+			productReference = A941B76415F8EA7900773E14 /* libFWTProgressView.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A941B75B15F8EA7900773E14 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Marco Meschini";
+			};
+			buildConfigurationList = A941B75E15F8EA7900773E14 /* Build configuration list for PBXProject "FWTProgressView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A941B75915F8EA7900773E14;
+			productRefGroup = A941B76515F8EA7900773E14 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A941B76315F8EA7900773E14 /* FWTProgressView */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A941B76015F8EA7900773E14 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A941B76F15F8EA7900773E14 /* FWTProgressView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A941B77015F8EA7900773E14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A941B77115F8EA7900773E14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A941B77315F8EA7900773E14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/FWTProgressView.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FWTProgressView/FWTProgressView-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A941B77415F8EA7900773E14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/FWTProgressView.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FWTProgressView/FWTProgressView-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A941B75E15F8EA7900773E14 /* Build configuration list for PBXProject "FWTProgressView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A941B77015F8EA7900773E14 /* Debug */,
+				A941B77115F8EA7900773E14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A941B77215F8EA7900773E14 /* Build configuration list for PBXNativeTarget "FWTProgressView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A941B77315F8EA7900773E14 /* Debug */,
+				A941B77415F8EA7900773E14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A941B75B15F8EA7900773E14 /* Project object */;
+}
