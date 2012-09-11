@@ -8,13 +8,31 @@
 
 #import <UIKit/UIKit.h>
 
+enum _FWTProgressViewAnimationType
+{
+    FWTProgressViewAnimationTypeNone,
+    FWTProgressViewAnimationTypeFromRightToLeft,   
+    FWTProgressViewAnimationTypeFromLeftToRight,    // default
+};
+typedef NSUInteger FWTProgressViewAnimationType;
+
 @interface FWTProgressView : UIView
 
 @property (nonatomic, assign) CGFloat progress;
-@property (nonatomic, getter = isPatternImageAnimationEnabled, assign) BOOL patternImageAnimationEnabled;  //  default is YES
+@property (nonatomic, assign) FWTProgressViewAnimationType directionType;
+@property (nonatomic, assign) UIEdgeInsets backgroundEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets borderEdgeInsets;
 
-- (id)initWithPatternImage:(UIImage *)patternImage sliderImage:(UIImage *)sliderImage borderImage:(UIImage *)borderImage;
-- (id)initWithPatternImage:(UIImage *)patternImage sliderImage:(UIImage *)sliderImage borderImage:(UIImage *)borderImage extraHeight:(CGFloat)extraHeight;
+- (id)initWithProgressImage:(UIImage *)progressImage
+                 trackImage:(UIImage *)trackImage
+                borderImage:(UIImage *)borderImage;
+
+- (id)initWithProgressImage:(UIImage *)progressImage
+                 trackImage:(UIImage *)trackImage
+                borderImage:(UIImage *)borderImage
+                extraHeight:(CGFloat)extraHeight
+       backgroundEdgeInsets:(UIEdgeInsets)backgroundEdgeInsets
+           borderEdgeInsets:(UIEdgeInsets)borderEdgeInsets;
 
 - (void)setProgress:(float)progress animated:(BOOL)animated;
 

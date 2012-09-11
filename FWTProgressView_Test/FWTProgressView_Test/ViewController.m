@@ -10,6 +10,9 @@
 #import "FWTProgressView.h"
 #import "UIImage+Sample.h"
 
+#define INSET_HORIZONTAL            20.0f
+#define VARIABLE_FRAME_ENABLED      1
+
 @interface TableViewCell : UITableViewCell
 @property (nonatomic, retain) FWTProgressView *progressView;
 @end
@@ -22,11 +25,20 @@
     
     if (!self.progressView.superview)
         [self.contentView addSubview:self.progressView];
-    
-    CGRect pvFrame = CGRectInset(self.bounds, 20.0f, .0f);
-    pvFrame.origin.y += (CGRectGetHeight(self.bounds)-CGRectGetHeight(self.progressView.frame))*.5f;
-    pvFrame.size.height = CGRectGetHeight(self.progressView.frame);
+        
+#if VARIABLE_FRAME_ENABLED
+    //  adjust progressView width to its superview
+    CGRect pvFrame = CGRectInset(self.bounds, INSET_HORIZONTAL, .0f);
+    pvFrame.origin.y += (CGRectGetHeight(self.bounds)-CGRectGetHeight(self.progressView.bounds))*.5f;
+    pvFrame.size.height = CGRectGetHeight(self.progressView.bounds);
     self.progressView.frame = pvFrame;
+#else
+    //  center progressView inside its superview
+    CGRect pvFrame = self.progressView.frame;
+    pvFrame.origin.x = (CGRectGetWidth(self.bounds)-CGRectGetWidth(self.progressView.bounds))*.5f;
+    pvFrame.origin.y = (CGRectGetHeight(self.bounds)-CGRectGetHeight(self.progressView.bounds))*.5f;
+    self.progressView.frame = pvFrame;
+#endif
 }
 
 @end
@@ -44,6 +56,8 @@
 @end
 
 @implementation ViewController
+@synthesize slider = _slider;
+@synthesize array = _array;
 
 - (void)dealloc
 {
@@ -52,26 +66,19 @@
     [super dealloc];
 }
 
-- (id)init
-{
-    if ((self = [super init]))
-    {
-        self.title = @"Progress view";
-    }
-    
-    return self;
-}
-
 NSString *const kDefault = @"kDefault";
 NSString *const kPattern = @"kPattern";
 NSString *const kSlider  = @"kSlider";
 NSString *const kBorder  = @"kBorder";
+NSString *const kAnim    = @"kAnim";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
+    self.title = @"Progress view";
+    
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.separatorColor = [[UIColor blackColor] colorWithAlphaComponent:.5f];
+    self.tableView.separatorColor = [UIColor colorWithWhite:.325f alpha:1.0f];
     self.tableView.tableFooterView = [[[UIView alloc] init] autorelease];
 }
 
@@ -79,16 +86,8 @@ NSString *const kBorder  = @"kBorder";
 {
     [super viewWillAppear:animated];
     
-    if (!self.slider)
-    {
-        self.slider = [[[UISlider alloc] initWithFrame:CGRectMake(0, 0, 300, 30)] autorelease];
-        self.slider.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin;
-        self.slider.center = CGPointMake(CGRectGetMidX(self.navigationController.toolbar.bounds), CGRectGetMidY(self.navigationController.toolbar.bounds));
-        self.slider.minimumValue = .0f;
-        self.slider.maximumValue = 1.0f;
-        [self.slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    if (!self.slider.superview)
         [self.navigationController.toolbar addSubview:self.slider];
-    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -96,6 +95,26 @@ NSString *const kBorder  = @"kBorder";
     return YES;
 }
 
+#pragma mark - Private
++ (FWTProgressView *)_progressViewWithDictionary:(NSDictionary *)dictionary
+{
+    id pattern = [dictionary valueForKey:kPattern];
+    id slider  = [dictionary valueForKey:kSlider];
+    id border  = [dictionary valueForKey:kBorder];
+    id anim    = [dictionary valueForKey:kAnim];
+    FWTProgressView *toReturn = [[[FWTProgressView alloc] initWithProgressImage:pattern ? pattern : nil
+                                                                     trackImage:slider ? slider : nil
+                                                                    borderImage:border ? border : nil] autorelease];
+    
+#if !VARIABLE_FRAME_ENABLED
+    toReturn.frame = CGRectMake(.0f, .0f, 100.0f, CGRectGetHeight(toReturn.frame));
+#endif
+    
+    if (anim) toReturn.directionType = [anim integerValue];
+    return toReturn;
+}
+
+#pragma mark - Action
 - (void)sliderValueDidChange:(UISlider *)slider
 {
     self.progress = slider.value;
@@ -109,15 +128,30 @@ NSString *const kBorder  = @"kBorder";
     {
         self->_array =
         [@[
-        @{},
-        @{kPattern : [UIImage warning_patternImage]},
-        @{kPattern : [UIImage barberShop_patternImage], kSlider : [UIImage barberShop_sliderImage], kBorder : [UIImage barberShop_borderImage]},
-        @{kPattern : [UIImage blueGradient_patternImage]},
-        @{kPattern : [UIImage iLikeTheWaves_patternImage]},
+         @{},
+         @{kPattern : [UIImage warning_progressImage], kAnim : [NSNumber numberWithInt:FWTProgressViewAnimationTypeFromRightToLeft]},
+         @{kPattern : [UIImage barberShop_progressImage], kSlider : [UIImage barberShop_trackImage], kBorder : [UIImage barberShop_borderImage]},
+         @{kPattern : [UIImage blueGradient_progressImage], kAnim : [NSNumber numberWithInt:FWTProgressViewAnimationTypeNone]},
+         @{kPattern : [UIImage iLikeTheWaves_progressImage], kAnim : [NSNumber numberWithInt:FWTProgressViewAnimationTypeFromRightToLeft]},
         ] retain];
     }
     
     return self->_array;
+}
+
+- (UISlider *)slider
+{
+    if (!self->_slider)
+    {
+        self->_slider = [[UISlider alloc] initWithFrame:CGRectInset(self.navigationController.toolbar.bounds, INSET_HORIZONTAL, .0f)];
+        self->_slider.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth;
+        self->_slider.center = CGPointMake(CGRectGetMidX(self.navigationController.toolbar.bounds), CGRectGetMidY(self.navigationController.toolbar.bounds));
+        self->_slider.minimumValue = .0f;
+        self->_slider.maximumValue = 1.0f;
+        [self->_slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    }
+    
+    return self->_slider;
 }
 
 #pragma mark - Table
@@ -133,15 +167,7 @@ NSString *const kBorder  = @"kBorder";
     if (!cell)
     {
         cell = [[[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    
-        NSDictionary *dictionary = [self.array objectAtIndex:indexPath.row];
-        id pattern = [dictionary valueForKey:kPattern];
-        id slider  = [dictionary valueForKey:kSlider];
-        id border  = [dictionary valueForKey:kBorder];
-        FWTProgressView *progressView = [[[FWTProgressView alloc] initWithPatternImage:pattern ? pattern : nil
-                                                                           sliderImage:slider ? slider : nil
-                                                                           borderImage:border ? border : nil] autorelease];
-        cell.progressView = progressView;
+        cell.progressView = [[self class] _progressViewWithDictionary:[self.array objectAtIndex:indexPath.row]];
     }
             
     cell.progressView.progress = self.slider.value;
