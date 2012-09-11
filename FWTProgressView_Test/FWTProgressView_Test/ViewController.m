@@ -138,8 +138,8 @@ NSString *const kBorder  = @"kBorder";
         id pattern = [dictionary valueForKey:kPattern];
         id slider  = [dictionary valueForKey:kSlider];
         id border  = [dictionary valueForKey:kBorder];
-        FWTProgressView *progressView = [[[FWTProgressView alloc] initWithPatternImage:pattern ? pattern : nil
-                                                                           sliderImage:slider ? slider : nil
+        FWTProgressView *progressView = [[[FWTProgressView alloc] initWithProgressImage:pattern ? pattern : nil
+                                                                           trackImage:slider ? slider : nil
                                                                            borderImage:border ? border : nil] autorelease];
         cell.progressView = progressView;
     }

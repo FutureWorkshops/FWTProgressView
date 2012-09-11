@@ -11,10 +11,10 @@
 @interface FWTProgressView : UIView
 
 @property (nonatomic, assign) CGFloat progress;
-@property (nonatomic, getter = isPatternImageAnimationEnabled, assign) BOOL patternImageAnimationEnabled;  //  default is YES
+@property (nonatomic, getter = isProgressImageAnimationEnabled, assign) BOOL progressImageAnimationEnabled;  //  default is YES
 
-- (id)initWithPatternImage:(UIImage *)patternImage sliderImage:(UIImage *)sliderImage borderImage:(UIImage *)borderImage;
-- (id)initWithPatternImage:(UIImage *)patternImage sliderImage:(UIImage *)sliderImage borderImage:(UIImage *)borderImage extraHeight:(CGFloat)extraHeight;
+- (id)initWithProgressImage:(UIImage *)progressImage trackImage:(UIImage *)trackImage borderImage:(UIImage *)borderImage;
+- (id)initWithProgressImage:(UIImage *)progressImage trackImage:(UIImage *)trackImage borderImage:(UIImage *)borderImage extraHeight:(CGFloat)extraHeight;
 
 - (void)setProgress:(float)progress animated:(BOOL)animated;
 
