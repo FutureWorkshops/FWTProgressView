@@ -10,16 +10,18 @@
 
 @interface UIImage (Sample)
 
-+ (UIImage *)warning_patternImage;
+//
++ (UIImage *)warning_progressImage;
 
-+ (UIImage *)barberShop_patternImage;
-+ (UIImage *)barberShop_sliderImage;
+//
++ (UIImage *)barberShop_progressImage;
++ (UIImage *)barberShop_trackImage;
 + (UIImage *)barberShop_borderImage;
 
-+ (UIImage *)blueGradient_patternImage;
+//
++ (UIImage *)blueGradient_progressImage;
 
-+ (UIImage *)iLikeTheWaves_patternImage;
-
-//+ (UIImage *)horizontalGradient_patternImage;
+//
++ (UIImage *)iLikeTheWaves_progressImage;
 
 @end

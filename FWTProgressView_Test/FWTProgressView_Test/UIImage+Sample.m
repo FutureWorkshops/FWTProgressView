@@ -10,7 +10,7 @@
 
 @implementation UIImage (Sample)
 
-+ (UIImage *)warning_patternImage
++ (UIImage *)warning_progressImage
 {
     CGFloat baseWidth = 12.0f;
     CGFloat baseHeight = 18.0f;
@@ -38,13 +38,17 @@
     CGContextTranslateCTM(ctx, -period, .0f);
     [bp1 fill];
     
+    CGContextTranslateCTM(ctx, period, .0f);
+    CGContextSetFillColorWithColor(ctx, [[UIColor whiteColor] colorWithAlphaComponent:.2f].CGColor);
+    CGContextFillRect(ctx, CGRectMake(.0f, baseHeight-1.0f, period, 1.0f));
+    
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
     return image;
 }
 
-+ (UIImage *)barberShop_patternImage
++ (UIImage *)barberShop_progressImage
 {
     CGFloat baseWidth = 12.0f;
     CGFloat baseHeight = 18.0f;
@@ -78,7 +82,7 @@
     return image;
 }
 
-+ (UIImage *)barberShop_sliderImage
++ (UIImage *)barberShop_trackImage
 {
     CGSize size = CGSizeMake(6.0f, 18.0f);
     CGRect ctxRect = CGRectMake(.0f, .0f, size.width, size.height);
@@ -86,11 +90,11 @@
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     //
-    CGContextSetFillColorWithColor(ctx, [UIColor colorWithRed:.55f green:.55f blue:.56f alpha:1.0f].CGColor);
+    CGContextSetFillColorWithColor(ctx, [UIColor colorWithRed:.0f green:.37f blue:.62f alpha:1.0f].CGColor);
     CGContextFillRect(ctx, ctxRect);
     
-    UIColor *startColor = [UIColor colorWithRed:.52f green:.52f blue:.52f alpha:1.0f];
-    UIColor *endColor = [UIColor colorWithRed:.55f green:.55f blue:.56f alpha:1.0f];
+    UIColor *startColor = [UIColor colorWithRed:.0f green:.32f blue:.57f alpha:1.0f];
+    UIColor *endColor = [UIColor colorWithRed:.0f green:.37f blue:.62f alpha:1.0f];
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGFloat locations[2] = {0.f, 1.f};
     const void *colors[2] = {startColor.CGColor, endColor.CGColor};
@@ -147,7 +151,7 @@
     return image;
 }
 
-+ (UIImage *)blueGradient_patternImage
++ (UIImage *)blueGradient_progressImage
 {
     CGSize size = CGSizeMake(1.0f, 18.0f);
     CGRect ctxRect = CGRectMake(.0f, .0f, size.width, size.height);
@@ -179,7 +183,7 @@
     return image;
 }
 
-+ (UIImage *)iLikeTheWaves_patternImage
++ (UIImage *)iLikeTheWaves_progressImage
 {
     void (^drawGradient)(CGContextRef, CGColorRef, CGColorRef) = ^(CGContextRef ctx, CGColorRef colorA, CGColorRef colorB){
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -242,40 +246,5 @@
     
     return image;
 }
-
-//+ (UIImage *)horizontalGradient_patternImage
-//{
-//    CGSize size = CGSizeMake(300.0f, 3.0f);
-//    CGRect ctxRect = CGRectMake(.0f, .0f, size.width, size.height);
-//    UIGraphicsBeginImageContextWithOptions(size, NO, .0f);
-//    CGContextRef ctx = UIGraphicsGetCurrentContext();
-//    
-//    //
-//    CGContextSetFillColorWithColor(ctx, [UIColor redColor].CGColor);
-//    CGContextFillRect(ctx, ctxRect);
-//    
-//    CGContextSetStrokeColorWithColor(ctx, [UIColor yellowColor].CGColor);
-//    CGContextStrokeRect(ctx, ctxRect);
-//    
-////    UIColor *startColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
-////    UIColor *endColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:.3f];
-////    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-////    CGFloat locations[2] = {0.f, 1.f};
-////    const void *colors[2] = {startColor.CGColor, endColor.CGColor};
-////    CFArrayRef gradientColors = CFArrayCreate(NULL, colors, 2, NULL);
-////    CGGradientRef _gradientRef = CGGradientCreateWithColors(colorSpace, gradientColors, locations);
-////    CGColorSpaceRelease(colorSpace);
-////    CFRelease(gradientColors);
-////    
-////    CGPoint startPoint = CGPointZero;
-////    CGPoint endPoint = CGPointMake(.0f, size.height);
-////    CGContextDrawLinearGradient(ctx, _gradientRef, startPoint, endPoint, kCGGradientDrawsBeforeStartLocation);
-////    CGGradientRelease(_gradientRef);
-//    
-//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    return image;
-//}
 
 @end
