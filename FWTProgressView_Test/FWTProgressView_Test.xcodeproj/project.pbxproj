@@ -14,7 +14,7 @@
 		A941B79815F8EAB200773E14 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B79715F8EAB200773E14 /* main.m */; };
 		A941B79C15F8EAB200773E14 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B79B15F8EAB200773E14 /* AppDelegate.m */; };
 		A941B7A315F8EADE00773E14 /* libFWTProgressView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A941B7A215F8EADE00773E14 /* libFWTProgressView.a */; };
-		A941B7AA15F8EBF000773E14 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B7A915F8EBF000773E14 /* ViewController.m */; };
+		A941B7AA15F8EBF000773E14 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B7A915F8EBF000773E14 /* TableViewController.m */; };
 		A941B7BC15F8ED6600773E14 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A941B7BB15F8ED6600773E14 /* QuartzCore.framework */; };
 		A941B7CB15F8FB3A00773E14 /* UIImage+Sample.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */; };
 /* End PBXBuildFile section */
@@ -31,8 +31,8 @@
 		A941B79A15F8EAB200773E14 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A941B79B15F8EAB200773E14 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A941B7A215F8EADE00773E14 /* libFWTProgressView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFWTProgressView.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A941B7A815F8EBF000773E14 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		A941B7A915F8EBF000773E14 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		A941B7A815F8EBF000773E14 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		A941B7A915F8EBF000773E14 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		A941B7BB15F8ED6600773E14 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A941B7C915F8FB3A00773E14 /* UIImage+Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Sample.h"; sourceTree = "<group>"; };
 		A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Sample.m"; sourceTree = "<group>"; };
@@ -88,8 +88,8 @@
 			children = (
 				A941B79A15F8EAB200773E14 /* AppDelegate.h */,
 				A941B79B15F8EAB200773E14 /* AppDelegate.m */,
-				A941B7A815F8EBF000773E14 /* ViewController.h */,
-				A941B7A915F8EBF000773E14 /* ViewController.m */,
+				A941B7A815F8EBF000773E14 /* TableViewController.h */,
+				A941B7A915F8EBF000773E14 /* TableViewController.m */,
 				A941B7C915F8FB3A00773E14 /* UIImage+Sample.h */,
 				A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */,
 				A941B79215F8EAB200773E14 /* Supporting Files */,
@@ -172,7 +172,7 @@
 			files = (
 				A941B79815F8EAB200773E14 /* main.m in Sources */,
 				A941B79C15F8EAB200773E14 /* AppDelegate.m in Sources */,
-				A941B7AA15F8EBF000773E14 /* ViewController.m in Sources */,
+				A941B7AA15F8EBF000773E14 /* TableViewController.m in Sources */,
 				A941B7CB15F8FB3A00773E14 /* UIImage+Sample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

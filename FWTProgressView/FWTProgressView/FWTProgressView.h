@@ -19,9 +19,7 @@ typedef NSUInteger FWTProgressViewAnimationType;
 @interface FWTProgressView : UIView
 
 @property (nonatomic, assign) CGFloat progress;
-@property (nonatomic, assign) FWTProgressViewAnimationType directionType;
-@property (nonatomic, assign) UIEdgeInsets backgroundEdgeInsets;
-@property (nonatomic, assign) UIEdgeInsets borderEdgeInsets;
+@property (nonatomic, assign) FWTProgressViewAnimationType animationType;
 
 - (id)initWithProgressImage:(UIImage *)progressImage
                  trackImage:(UIImage *)trackImage
