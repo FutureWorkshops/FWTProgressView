@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Marco Meschini. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "TableViewController.h"
 #import "FWTProgressView.h"
 #import "UIImage+Sample.h"
 
@@ -28,34 +28,32 @@
         
 #if VARIABLE_FRAME_ENABLED
     //  adjust progressView width to its superview
-    CGRect pvFrame = CGRectInset(self.bounds, INSET_HORIZONTAL, .0f);
-    pvFrame.origin.y += (CGRectGetHeight(self.bounds)-CGRectGetHeight(self.progressView.bounds))*.5f;
+    CGRect pvFrame = CGRectInset(self.contentView.bounds, INSET_HORIZONTAL, .0f);
+    pvFrame.origin.y += (CGRectGetHeight(self.contentView.bounds)-CGRectGetHeight(self.progressView.bounds))*.5f;
     pvFrame.size.height = CGRectGetHeight(self.progressView.bounds);
     self.progressView.frame = pvFrame;
 #else
     //  center progressView inside its superview
     CGRect pvFrame = self.progressView.frame;
-    pvFrame.origin.x = (CGRectGetWidth(self.bounds)-CGRectGetWidth(self.progressView.bounds))*.5f;
-    pvFrame.origin.y = (CGRectGetHeight(self.bounds)-CGRectGetHeight(self.progressView.bounds))*.5f;
+    pvFrame.origin.x = (CGRectGetWidth(self.contentView.bounds)-CGRectGetWidth(self.progressView.bounds))*.5f;
+    pvFrame.origin.y = (CGRectGetHeight(self.contentView.bounds)-CGRectGetHeight(self.progressView.bounds))*.5f;
     self.progressView.frame = pvFrame;
 #endif
 }
 
 @end
 
-@interface ViewController ()
+@interface TableViewController ()
 {
     FWTProgressView *test;
     NSArray *_array;
-    CGFloat _progress;
     UISlider *_slider;
 }
 @property (nonatomic, retain) NSArray *array;
-@property (nonatomic, assign) CGFloat progress;
 @property (nonatomic, retain) UISlider *slider;
 @end
 
-@implementation ViewController
+@implementation TableViewController
 @synthesize slider = _slider;
 @synthesize array = _array;
 
@@ -110,14 +108,13 @@ NSString *const kAnim    = @"kAnim";
     toReturn.frame = CGRectMake(.0f, .0f, 100.0f, CGRectGetHeight(toReturn.frame));
 #endif
     
-    if (anim) toReturn.directionType = [anim integerValue];
+    if (anim) toReturn.animationType = [anim integerValue];
     return toReturn;
 }
 
 #pragma mark - Action
 - (void)sliderValueDidChange:(UISlider *)slider
 {
-    self.progress = slider.value;
     [self.tableView reloadData];
 }
 
@@ -128,11 +125,27 @@ NSString *const kAnim    = @"kAnim";
     {
         self->_array =
         [@[
+         
+         // the default one
+         //
          @{},
+         
+         // yellow-black stripes
+         //
          @{kPattern : [UIImage warning_progressImage], kAnim : [NSNumber numberWithInt:FWTProgressViewAnimationTypeFromRightToLeft]},
+         
+         // barber
+         //
          @{kPattern : [UIImage barberShop_progressImage], kSlider : [UIImage barberShop_trackImage], kBorder : [UIImage barberShop_borderImage]},
+         
+         // a static gradient
+         //
          @{kPattern : [UIImage blueGradient_progressImage], kAnim : [NSNumber numberWithInt:FWTProgressViewAnimationTypeNone]},
+         
+         // a waste of time
+         //
          @{kPattern : [UIImage iLikeTheWaves_progressImage], kAnim : [NSNumber numberWithInt:FWTProgressViewAnimationTypeFromRightToLeft]},
+         
         ] retain];
     }
     
@@ -145,7 +158,6 @@ NSString *const kAnim    = @"kAnim";
     {
         self->_slider = [[UISlider alloc] initWithFrame:CGRectInset(self.navigationController.toolbar.bounds, INSET_HORIZONTAL, .0f)];
         self->_slider.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth;
-        self->_slider.center = CGPointMake(CGRectGetMidX(self.navigationController.toolbar.bounds), CGRectGetMidY(self.navigationController.toolbar.bounds));
         self->_slider.minimumValue = .0f;
         self->_slider.maximumValue = 1.0f;
         [self->_slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];

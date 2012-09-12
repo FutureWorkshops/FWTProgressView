@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
+#import "TableViewController.h"
 
 @implementation AppDelegate
 
@@ -22,7 +22,7 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.window.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
-    UIViewController *vc = [[[ViewController alloc] init] autorelease];
+    UIViewController *vc = [[[TableViewController alloc] init] autorelease];
     UINavigationController *nc = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
     nc.toolbarHidden = NO;
     self.window.rootViewController = nc;

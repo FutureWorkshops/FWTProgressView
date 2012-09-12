@@ -28,6 +28,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     
     UIImageView *_trackImageView;
     UIImageView *_borderImageView;
+    
     BOOL _animationEnabled;
     CGFloat _extraHeight;
 }
@@ -39,6 +40,8 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
 @property (nonatomic, retain) UIImageView *borderImageView;
 @property (nonatomic, getter = isAnimationEnabled, assign) BOOL animationEnabled;
 @property (nonatomic, assign) CGFloat extraHeight;
+@property (nonatomic, assign) UIEdgeInsets backgroundEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets borderEdgeInsets;
 @end
 
 
@@ -230,7 +233,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     if ([self _isProgressImageAnimationEnabled])
     {
         self.replicatorLayer.instanceCount = 2;
-        CGFloat tx = (self.directionType == FWTProgressViewAnimationTypeFromRightToLeft) ? 1 : -1;
+        CGFloat tx = (self.animationType == FWTProgressViewAnimationTypeFromRightToLeft) ? 1 : -1;
         self.replicatorLayer.instanceTransform = CATransform3DMakeTranslation(CGRectGetWidth(replicatorFrame)*tx, 0., 0.);
     }
     else
@@ -275,7 +278,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
 
 - (BOOL)_isProgressImageAnimationEnabled
 {
-    return self.directionType != FWTProgressViewAnimationTypeNone;
+    return self.animationType != FWTProgressViewAnimationTypeNone;
 }
 
 - (CGFloat)_animationDuration
@@ -290,7 +293,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     CGFloat animationDuration = [self _animationDuration];
     CGPoint fromPoint = self.replicatorLayer.position;
     CGPoint toPoint = fromPoint;
-    if (self.directionType == FWTProgressViewAnimationTypeFromRightToLeft)
+    if (self.animationType == FWTProgressViewAnimationTypeFromRightToLeft)
         toPoint.x *= -1;
     else
         toPoint.x += CGRectGetWidth(self.replicatorLayer.bounds);
@@ -340,7 +343,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
         self.extraHeight = extraHeight;
         self.backgroundEdgeInsets = backgroundEdgeInsets;
         self.borderEdgeInsets = borderEdgeInsets;
-        self.directionType = FWTProgressViewAnimationTypeFromLeftToRight;
+        self.animationType = FWTProgressViewAnimationTypeFromLeftToRight;
         
         self.frame = CGRectMake(.0f, .0f, .0f, self.progressImage.size.height + self.extraHeight);
         
