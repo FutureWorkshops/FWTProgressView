@@ -20,6 +20,7 @@ typedef NSUInteger FWTProgressViewAnimationType;
 
 @property (nonatomic, assign) CGFloat progress;
 @property (nonatomic, assign) FWTProgressViewAnimationType animationType;
+@property (nonatomic, assign) NSTimeInterval animationDuration; //  default is 1.0s
 
 - (id)initWithProgressImage:(UIImage *)progressImage
                  trackImage:(UIImage *)trackImage

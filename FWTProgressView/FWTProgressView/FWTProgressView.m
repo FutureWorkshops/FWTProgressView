@@ -12,9 +12,9 @@
 #define FWTPV_BACKGROUND_EDGE_INSETS        UIEdgeInsetsMake(.0f, 2.0f, .0f, 2.0f)
 #define FWTPV_BORDER_EDGE_INSETS            UIEdgeInsetsMake(3.0f, .0f, 3.0f, .0f)
 
-#define FWTPV_ANIMATION_DURATION_CONSTANT   .027f
+#define FWTPV_ANIMATION_DURATION            1.0f
 
-NSString *const progressAnimationKey = @"progressAnimationKey";
+NSString *const keyProgressAnimation = @"keyProgressAnimation";
 
 @interface FWTProgressView ()
 {
@@ -23,8 +23,8 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     UIImage *_borderImage;
     
     CGFloat _progress;
-    UIView *_backgroundContainerView;
-    CAReplicatorLayer *_replicatorLayer;
+    UIView *_contentView;
+    CALayer *_progressLayer;
     
     UIImageView *_trackImageView;
     UIImageView *_borderImageView;
@@ -34,8 +34,8 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
 }
 
 @property (nonatomic, retain) UIImage *progressImage, *trackImage, *borderImage;
-@property (nonatomic, retain) UIView *backgroundContainerView;
-@property (nonatomic, retain) CAReplicatorLayer *replicatorLayer;
+@property (nonatomic, retain) UIView *contentView;
+@property (nonatomic, retain) CALayer *progressLayer;
 @property (nonatomic, retain) UIImageView *trackImageView;
 @property (nonatomic, retain) UIImageView *borderImageView;
 @property (nonatomic, getter = isAnimationEnabled, assign) BOOL animationEnabled;
@@ -47,10 +47,13 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
 
 @implementation FWTProgressView
 @synthesize trackImageView = _trackImageView;
-@synthesize progress = _progress;
 @synthesize borderImageView = _borderImageView;
+
+@synthesize progress = _progress;
 @synthesize animationEnabled = _animationEnabled;
-@synthesize replicatorLayer = _replicatorLayer;
+
+@synthesize progressLayer = _progressLayer;
+@synthesize contentView = _contentView;
 
 #pragma mark - Overrides
 - (void)dealloc
@@ -59,8 +62,9 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     
     self.borderImageView = nil;
     self.trackImageView = nil;
-    self.replicatorLayer = nil;
-    self.backgroundContainerView = nil;
+    
+    self.progressLayer = nil;
+    self.contentView = nil;
     
     self.progressImage = nil;
     self.trackImage = nil;
@@ -89,8 +93,9 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     {
         [self setAnimationEnabled:NO];
     }
-    else if (!CGRectEqualToRect(previous, frame))
+    else if (!CGSizeEqualToSize(previous.size, frame.size))
     {
+        [self setAnimationEnabled:NO];
         [self _configure];
     }
 }
@@ -99,14 +104,14 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
 {
     [super layoutSubviews];
     
-    if (!self.backgroundContainerView.superview)
-        [self addSubview:self.backgroundContainerView];
+    if (!self.contentView.superview)
+        [self addSubview:self.contentView];
     
-    if (!self.replicatorLayer.superlayer)
-        [self.backgroundContainerView.layer addSublayer:self.replicatorLayer];
-    
+    if (!self.progressLayer.superlayer)
+        [self.contentView.layer addSublayer:self.progressLayer];
+
     if (!self.trackImageView.superview)
-        [self.backgroundContainerView addSubview:self.trackImageView];
+        [self.contentView addSubview:self.trackImageView];
     
     if (!self.borderImageView.superview)
         [self addSubview:self.borderImageView];
@@ -119,23 +124,23 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
 }
 
 #pragma mark - Getters
-- (UIView *)backgroundContainerView
+- (UIView *)contentView
 {
-    if (!self->_backgroundContainerView)
+    if (!self->_contentView)
     {
-        self->_backgroundContainerView = [[UIView alloc] init];
-        self->_backgroundContainerView.clipsToBounds = YES;
+        self->_contentView = [[UIView alloc] init];
+        self->_contentView.clipsToBounds = YES;
     }
     
-    return self->_backgroundContainerView;
+    return self->_contentView;
 }
 
-- (CAReplicatorLayer *)replicatorLayer
+- (CALayer *)progressLayer
 {
-    if (!self->_replicatorLayer)
-        self->_replicatorLayer = [[CAReplicatorLayer alloc] init];
+    if (!self->_progressLayer)
+        self->_progressLayer = [[CALayer alloc] init];
     
-    return self->_replicatorLayer;
+    return self->_progressLayer;
 }
 
 - (UIImageView *)trackImageView
@@ -163,13 +168,13 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     {
         self->_animationEnabled = enabled;
         
-        if (self->_animationEnabled && ![self.replicatorLayer animationForKey:progressAnimationKey])
+        if (self->_animationEnabled && ![self.progressLayer animationForKey:keyProgressAnimation])
         {
-            [self.replicatorLayer addAnimation:[self _animation] forKey:progressAnimationKey];
+            [self.progressLayer addAnimation:[self _animation] forKey:keyProgressAnimation];
         }
-        else if (!self->_animationEnabled && [self.replicatorLayer animationForKey:progressAnimationKey])
-        {
-            [self.replicatorLayer removeAnimationForKey:progressAnimationKey];
+        else if (!self->_animationEnabled && [self.progressLayer animationForKey:keyProgressAnimation])
+        {            
+            [self.progressLayer removeAnimationForKey:keyProgressAnimation];
         }
     }
 }
@@ -199,7 +204,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     //  if progress is zero then hide replicator layer
     [CATransaction begin];
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-    self.replicatorLayer.hidden = (progress) == .0f ? YES : NO;
+    self.progressLayer.hidden = (progress) == .0f ? YES : NO;
     [CATransaction commit];
     
     //
@@ -215,40 +220,34 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
         return;
     }
     
-    //  container frame and cornerRadius
-    CGFloat progressImageHeight = self.progressImage.size.height;
-    CGRect backgroundContainerFrame = UIEdgeInsetsInsetRect(self.bounds, self.backgroundEdgeInsets);
-    backgroundContainerFrame.origin.y += (CGRectGetHeight(backgroundContainerFrame)-progressImageHeight)*.5f;
-    backgroundContainerFrame.size.height = progressImageHeight;
-    backgroundContainerFrame = CGRectIntegral(backgroundContainerFrame);
-    self.backgroundContainerView.frame = backgroundContainerFrame;
-    self.backgroundContainerView.layer.cornerRadius = CGRectGetMidY(self.backgroundContainerView.bounds);
+    //
+    CGSize progressImageSize = self.progressImage.size;
     
-    //  replicator bounds
-    CGRect replicatorFrame = self.backgroundContainerView.bounds;
-    CGFloat tileWidth = self.progressImage.size.width;
-    CGFloat module = fmodf(CGRectGetWidth(replicatorFrame), tileWidth);
-    if (module != .0f) replicatorFrame.size.width += tileWidth - module;
-    self.replicatorLayer.frame = replicatorFrame;
+    //  container frame and cornerRadius
+    CGRect backgroundContainerFrame = UIEdgeInsetsInsetRect(self.bounds, self.backgroundEdgeInsets);
+    backgroundContainerFrame.origin.y += (CGRectGetHeight(backgroundContainerFrame)-progressImageSize.height)*.5f;
+    backgroundContainerFrame.size.height = progressImageSize.height;
+    backgroundContainerFrame = CGRectIntegral(backgroundContainerFrame);
+    self.contentView.frame = backgroundContainerFrame;
+    self.contentView.layer.cornerRadius = CGRectGetMidY(self.contentView.bounds);
+    
+    //  adjust width
+    CGRect adjustedProgressLayerFrame = self.contentView.bounds;
+    CGFloat module = fmodf(CGRectGetWidth(adjustedProgressLayerFrame), progressImageSize.width);
+    if (module != .0f) adjustedProgressLayerFrame.size.width += progressImageSize.width - module;
+    CGRect progressLayerFrame = adjustedProgressLayerFrame;
     if ([self _isProgressImageAnimationEnabled])
     {
-        self.replicatorLayer.instanceCount = 2;
-        CGFloat tx = (self.animationType == FWTProgressViewAnimationTypeFromRightToLeft) ? 1 : -1;
-        self.replicatorLayer.instanceTransform = CATransform3DMakeTranslation(CGRectGetWidth(replicatorFrame)*tx, 0., 0.);
+        progressLayerFrame.size.width += progressImageSize.width;
+        progressLayerFrame = CGRectOffset(progressLayerFrame, (self.animationType != FWTProgressViewAnimationTypeFromRightToLeft) ? -progressImageSize.width : .0f, .0f);
     }
-    else
-        self.replicatorLayer.instanceCount = 1;
         
-    //  replicated layers
-    NSArray *sublayers = [NSArray arrayWithArray:self.replicatorLayer.sublayers];
-    [sublayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-    CALayer *subLayer = [CALayer layer];
-    subLayer.frame = replicatorFrame;
-    subLayer.backgroundColor = [[UIColor colorWithPatternImage:self.progressImage] CGColor];
-    [self.replicatorLayer addSublayer:subLayer];
+    //  progressLayer
+    self.progressLayer.frame = progressLayerFrame;
+    self.progressLayer.backgroundColor = [[UIColor colorWithPatternImage:self.progressImage] CGColor];
     
     //  track frame - bounds reflect the progress
-    self.trackImageView.frame = self.backgroundContainerView.bounds;
+    self.trackImageView.frame = self.contentView.bounds;
     self.trackImageView.bounds = [self _trackBoundsForProgress:self.progress];
     
     //  border
@@ -271,7 +270,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
 
 - (CGRect)_trackBoundsForProgress:(CGFloat)progress
 {
-    CGRect toReturn = self.backgroundContainerView.bounds;
+    CGRect toReturn = self.contentView.bounds;
     toReturn.size.width *= (1.0f - progress);
     return toReturn;
 }
@@ -281,25 +280,19 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
     return self.animationType != FWTProgressViewAnimationTypeNone;
 }
 
-- (CGFloat)_animationDuration
-{
-    CGFloat constant = FWTPV_ANIMATION_DURATION_CONSTANT;
-    CGFloat toReturn = constant*CGRectGetWidth(self.replicatorLayer.bounds);
-    return toReturn;
-}
-
 - (CABasicAnimation *)_animation
 {
-    CGFloat animationDuration = [self _animationDuration];
-    CGPoint fromPoint = self.replicatorLayer.position;
+    CGPoint fromPoint = self.progressLayer.position;
     CGPoint toPoint = fromPoint;
     if (self.animationType == FWTProgressViewAnimationTypeFromRightToLeft)
-        toPoint.x *= -1;
+        toPoint.x -= self.progressImage.size.width;
     else
-        toPoint.x += CGRectGetWidth(self.replicatorLayer.bounds);
+        toPoint.x += self.progressImage.size.width;
+    
+    NSLog(@"from:%@, to:%@", NSStringFromCGPoint(fromPoint), NSStringFromCGPoint(toPoint));
     
     CABasicAnimation *toReturn = [CABasicAnimation animationWithKeyPath:@"position"];
-    toReturn.duration = animationDuration;
+    toReturn.duration = self.animationDuration;
     toReturn.fromValue = [NSValue valueWithCGPoint:fromPoint];
     toReturn.toValue = [NSValue valueWithCGPoint:toPoint];
     toReturn.repeatCount = INFINITY;
@@ -344,6 +337,7 @@ NSString *const progressAnimationKey = @"progressAnimationKey";
         self.backgroundEdgeInsets = backgroundEdgeInsets;
         self.borderEdgeInsets = borderEdgeInsets;
         self.animationType = FWTProgressViewAnimationTypeFromLeftToRight;
+        self.animationDuration = FWTPV_ANIMATION_DURATION;
         
         self.frame = CGRectMake(.0f, .0f, .0f, self.progressImage.size.height + self.extraHeight);
         

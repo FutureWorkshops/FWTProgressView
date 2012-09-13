@@ -103,12 +103,13 @@ NSString *const kAnim    = @"kAnim";
     FWTProgressView *toReturn = [[[FWTProgressView alloc] initWithProgressImage:pattern ? pattern : nil
                                                                      trackImage:slider ? slider : nil
                                                                     borderImage:border ? border : nil] autorelease];
-    
+
+    if (anim) toReturn.animationType = [anim integerValue];
+
 #if !VARIABLE_FRAME_ENABLED
     toReturn.frame = CGRectMake(.0f, .0f, 100.0f, CGRectGetHeight(toReturn.frame));
 #endif
     
-    if (anim) toReturn.animationType = [anim integerValue];
     return toReturn;
 }
 
