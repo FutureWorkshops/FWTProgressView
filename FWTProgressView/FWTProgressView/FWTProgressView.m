@@ -18,11 +18,12 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
 
 @interface FWTProgressView ()
 {
+    CGFloat _progress;
+    
     UIImage *_progressImage;
     UIImage *_trackImage;
     UIImage *_borderImage;
     
-    CGFloat _progress;
     UIView *_contentView;
     CALayer *_progressLayer;
     
@@ -231,11 +232,13 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
     self.contentView.frame = backgroundContainerFrame;
     self.contentView.layer.cornerRadius = CGRectGetMidY(self.contentView.bounds);
     
-    //  adjust width
+    //  even is better
     CGRect adjustedProgressLayerFrame = self.contentView.bounds;
-    CGFloat module = fmodf(CGRectGetWidth(adjustedProgressLayerFrame), progressImageSize.width);
-    if (module != .0f) adjustedProgressLayerFrame.size.width += progressImageSize.width - module;
+    CGFloat module = fmodf(CGRectGetWidth(adjustedProgressLayerFrame), 2);
+    if (module != .0f) adjustedProgressLayerFrame.size.width += 1.0f;
     CGRect progressLayerFrame = adjustedProgressLayerFrame;
+    
+    //  if animationEnabled add one extra tile and eventually adjust origin
     if ([self _isProgressImageAnimationEnabled])
     {
         progressLayerFrame.size.width += progressImageSize.width;
@@ -243,7 +246,10 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
     }
         
     //  progressLayer
+    [CATransaction begin];
+    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     self.progressLayer.frame = progressLayerFrame;
+    [CATransaction commit];
     self.progressLayer.backgroundColor = [[UIColor colorWithPatternImage:self.progressImage] CGColor];
     
     //  track frame - bounds reflect the progress
@@ -284,12 +290,7 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
 {
     CGPoint fromPoint = self.progressLayer.position;
     CGPoint toPoint = fromPoint;
-    if (self.animationType == FWTProgressViewAnimationTypeFromRightToLeft)
-        toPoint.x -= self.progressImage.size.width;
-    else
-        toPoint.x += self.progressImage.size.width;
-    
-    NSLog(@"from:%@, to:%@", NSStringFromCGPoint(fromPoint), NSStringFromCGPoint(toPoint));
+    toPoint.x += ((self.animationType == FWTProgressViewAnimationTypeFromRightToLeft) ? -1 : 1) * self.progressImage.size.width;
     
     CABasicAnimation *toReturn = [CABasicAnimation animationWithKeyPath:@"position"];
     toReturn.duration = self.animationDuration;
@@ -416,7 +417,7 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+        
     return image;
 }
 
@@ -434,10 +435,9 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
     UIColor *startColor = [UIColor colorWithRed:.24f green:.24f blue:.24f alpha:1.0f];
     UIColor *endColor = [UIColor colorWithRed:.25f green:.25f blue:.26f alpha:1.0f];
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGFloat locations[2] = {0.f, 1.f};
     const void *colors[2] = {startColor.CGColor, endColor.CGColor};
     CFArrayRef gradientColors = CFArrayCreate(NULL, colors, 2, NULL);
-    CGGradientRef _gradientRef = CGGradientCreateWithColors(colorSpace, gradientColors, locations);
+    CGGradientRef _gradientRef = CGGradientCreateWithColors(colorSpace, gradientColors, NULL);
     CGColorSpaceRelease(colorSpace);
     CFRelease(gradientColors);
     
@@ -448,7 +448,7 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+        
     return [image resizableImageWithCapInsets:UIEdgeInsetsMake(.0f, 4.0f, .0f, 1.0f)];
 }
 
@@ -481,7 +481,7 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
     [bp stroke];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+        
     //
     CGFloat cap = cornerRadius+emptyBorder;
     image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(cap, cap, cap, cap)];

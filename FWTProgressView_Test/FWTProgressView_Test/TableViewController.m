@@ -9,9 +9,12 @@
 #import "TableViewController.h"
 #import "FWTProgressView.h"
 #import "UIImage+Sample.h"
+#import "Factory.h"
 
+#define RELATIVE_FRAME_ENABLED      0
 #define INSET_HORIZONTAL            20.0f
-#define VARIABLE_FRAME_ENABLED      1
+#define SLIDER_HEIGHT               30.0f
+#define PROGRESS_MINIMUM_WIDTH      30.0f
 
 @interface TableViewCell : UITableViewCell
 @property (nonatomic, retain) FWTProgressView *progressView;
@@ -26,7 +29,7 @@
     if (!self.progressView.superview)
         [self.contentView addSubview:self.progressView];
         
-#if VARIABLE_FRAME_ENABLED
+#if RELATIVE_FRAME_ENABLED
     //  adjust progressView width to its superview
     CGRect pvFrame = CGRectInset(self.contentView.bounds, INSET_HORIZONTAL, .0f);
     pvFrame.origin.y += (CGRectGetHeight(self.contentView.bounds)-CGRectGetHeight(self.progressView.bounds))*.5f;
@@ -40,35 +43,43 @@
     self.progressView.frame = pvFrame;
 #endif
 }
-
 @end
+
+enum _SliderType
+{
+    SliderTypeProgress,
+    SliderTypeWidth,
+};
+typedef NSUInteger SliderType;
 
 @interface TableViewController ()
 {
-    FWTProgressView *test;
-    NSArray *_array;
-    UISlider *_slider;
+    NSArray *_dictionariesArray;
+    
+    NSInteger _numberOfSliders;
+    NSArray *_slidersArray;
+    UIView *_panelView;
+    
+    CGFloat _progressWidth;
+    CGFloat _progressMinimumWidth, _progressMaximumWidth;
 }
-@property (nonatomic, retain) NSArray *array;
-@property (nonatomic, retain) UISlider *slider;
+@property (nonatomic, retain) NSArray *dictionariesArray;
+@property (nonatomic, retain) UIView *panelView;
+@property (nonatomic, retain) NSArray *slidersArray;
 @end
 
 @implementation TableViewController
-@synthesize slider = _slider;
-@synthesize array = _array;
+@synthesize slidersArray = _slidersArray;
+@synthesize panelView = _panelView;
 
 - (void)dealloc
 {
-    self.array = nil;
-    self.slider = nil;
+    self.panelView = nil;
+    self.slidersArray = nil;
+    self.dictionariesArray = nil;
     [super dealloc];
 }
 
-NSString *const kDefault = @"kDefault";
-NSString *const kPattern = @"kPattern";
-NSString *const kSlider  = @"kSlider";
-NSString *const kBorder  = @"kBorder";
-NSString *const kAnim    = @"kAnim";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -77,15 +88,50 @@ NSString *const kAnim    = @"kAnim";
     
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorColor = [UIColor colorWithWhite:.325f alpha:1.0f];
-    self.tableView.tableFooterView = [[[UIView alloc] init] autorelease];
+    
+    //
+    self.dictionariesArray = [Factory progressViewDictionariesArray];
+    
+    //
+    _progressWidth = 113.0f;
+    _progressMinimumWidth = PROGRESS_MINIMUM_WIDTH;
+    
+    
+#if RELATIVE_FRAME_ENABLED
+    _numberOfSliders = 1;
+#else
+    _numberOfSliders = 2;
+#endif
+    
+    //
+    CGFloat panelViewHeight = _numberOfSliders*SLIDER_HEIGHT;
+    CGRect panelViewFrame = self.view.bounds;
+    panelViewFrame.size.height = panelViewHeight;
+    self.panelView.frame = panelViewFrame;
+    self.tableView.tableFooterView = self.panelView;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewWillLayoutSubviews
 {
-    [super viewWillAppear:animated];
+    [super viewWillLayoutSubviews];
     
-    if (!self.slider.superview)
-        [self.navigationController.toolbar addSubview:self.slider];
+    //
+    _progressMaximumWidth = self.view.bounds.size.width-INSET_HORIZONTAL;
+    
+    //
+#if !RELATIVE_FRAME_ENABLED
+    [[self sliderWithType:SliderTypeWidth] setValue:(_progressWidth-_progressMinimumWidth)/(_progressMaximumWidth-_progressMinimumWidth)];
+#endif
+    
+    //
+    CGRect frame = CGRectInset(self.panelView.bounds, INSET_HORIZONTAL, .0f);
+    frame.size.height = SLIDER_HEIGHT;
+    [self.slidersArray enumerateObjectsUsingBlock:^(UIView *theView, NSUInteger idx, BOOL *stop) {
+        if (!theView.superview)
+            [self.panelView addSubview:theView];
+        
+        theView.frame = CGRectOffset(frame, .0f, CGRectGetHeight(frame)*idx);
+    }];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -94,83 +140,60 @@ NSString *const kAnim    = @"kAnim";
 }
 
 #pragma mark - Private
-+ (FWTProgressView *)_progressViewWithDictionary:(NSDictionary *)dictionary
+- (UISlider *)sliderWithType:(SliderType)type
 {
-    id pattern = [dictionary valueForKey:kPattern];
-    id slider  = [dictionary valueForKey:kSlider];
-    id border  = [dictionary valueForKey:kBorder];
-    id anim    = [dictionary valueForKey:kAnim];
-    FWTProgressView *toReturn = [[[FWTProgressView alloc] initWithProgressImage:pattern ? pattern : nil
-                                                                     trackImage:slider ? slider : nil
-                                                                    borderImage:border ? border : nil] autorelease];
-
-    if (anim) toReturn.animationType = [anim integerValue];
-
-#if !VARIABLE_FRAME_ENABLED
-    toReturn.frame = CGRectMake(.0f, .0f, 100.0f, CGRectGetHeight(toReturn.frame));
-#endif
-    
-    return toReturn;
+    return [self.slidersArray objectAtIndex:type];
 }
 
 #pragma mark - Action
 - (void)sliderValueDidChange:(UISlider *)slider
 {
+    if ([self.slidersArray indexOfObject:slider] == SliderTypeWidth)
+        _progressWidth = slider.value*(_progressMaximumWidth-_progressMinimumWidth)+_progressMinimumWidth;
+        
     [self.tableView reloadData];
 }
 
 #pragma mark - Getters
-- (NSArray *)array
+- (UIView *)panelView
 {
-    if (!self->_array)
+    if (!self->_panelView)
     {
-        self->_array =
-        [@[
-         
-         // the default one
-         //
-         @{},
-         
-         // yellow-black stripes
-         //
-         @{kPattern : [UIImage warning_progressImage], kAnim : [NSNumber numberWithInt:FWTProgressViewAnimationTypeFromRightToLeft]},
-         
-         // barber
-         //
-         @{kPattern : [UIImage barberShop_progressImage], kSlider : [UIImage barberShop_trackImage], kBorder : [UIImage barberShop_borderImage]},
-         
-         // a static gradient
-         //
-         @{kPattern : [UIImage blueGradient_progressImage], kAnim : [NSNumber numberWithInt:FWTProgressViewAnimationTypeNone]},
-         
-         // a waste of time
-         //
-         @{kPattern : [UIImage iLikeTheWaves_progressImage], kAnim : [NSNumber numberWithInt:FWTProgressViewAnimationTypeFromRightToLeft]},
-         
-        ] retain];
+        self->_panelView = [[UIView alloc] init];
+        self->_panelView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+        self->_panelView.backgroundColor = [UIColor colorWithWhite:.325f alpha:.35f];
+        self->_panelView.layer.borderWidth = 1.0f;
+        self->_panelView.layer.borderColor = [UIColor colorWithWhite:.325f alpha:1.0f].CGColor;
     }
     
-    return self->_array;
+    return self->_panelView;
 }
 
-- (UISlider *)slider
+- (NSArray *)slidersArray
 {
-    if (!self->_slider)
+    if (!self->_slidersArray)
     {
-        self->_slider = [[UISlider alloc] initWithFrame:CGRectInset(self.navigationController.toolbar.bounds, INSET_HORIZONTAL, .0f)];
-        self->_slider.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth;
-        self->_slider.minimumValue = .0f;
-        self->_slider.maximumValue = 1.0f;
-        [self->_slider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
+        NSMutableArray *_tmp = [NSMutableArray arrayWithCapacity:_numberOfSliders];
+        for (unsigned i=0; i<_numberOfSliders; i++)
+        {
+            UISlider *s = [[[UISlider alloc] init] autorelease];
+            s.layer.borderWidth = 1.0f;
+            s.layer.borderColor = [UIColor colorWithWhite:.325f alpha:1.0f].CGColor;
+            s.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            [s addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
+            [_tmp addObject:s];
+        }
+        
+        self->_slidersArray = [[NSArray alloc] initWithArray:_tmp];
     }
     
-    return self->_slider;
+    return self->_slidersArray;
 }
 
 #pragma mark - Table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.array.count;
+    return self.dictionariesArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -180,10 +203,14 @@ NSString *const kAnim    = @"kAnim";
     if (!cell)
     {
         cell = [[[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.progressView = [[self class] _progressViewWithDictionary:[self.array objectAtIndex:indexPath.row]];
+        cell.progressView = [Factory progressViewWithDictionary:[self.dictionariesArray objectAtIndex:indexPath.row]];
     }
-            
-    cell.progressView.progress = self.slider.value;
+    
+#if !RELATIVE_FRAME_ENABLED
+    cell.progressView.frame = CGRectMake(.0f, .0f, _progressWidth, CGRectGetHeight(cell.progressView.frame));
+#endif
+    
+    cell.progressView.progress = [[self sliderWithType:SliderTypeProgress] value];
     
     return cell;
 }
