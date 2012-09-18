@@ -247,4 +247,43 @@
     return image;
 }
 
++ (UIImage *)arrow_progressImage
+{
+    CGSize size = CGSizeMake(30, 18);
+    UIGraphicsBeginImageContextWithOptions(size, NO, .0f);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    UIColor *startColor = [[UIColor blackColor] colorWithAlphaComponent:.3f];
+    UIColor *endColor = [[UIColor blackColor] colorWithAlphaComponent:.2f];
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGFloat locations[2] = {0.f, 1.f};
+    const void *colors[3] = {startColor.CGColor, endColor.CGColor, startColor.CGColor};
+    CFArrayRef gradientColors = CFArrayCreate(NULL, colors, 3, NULL);
+    CGGradientRef _gradientRef = CGGradientCreateWithColors(colorSpace, gradientColors, locations);
+    CGColorSpaceRelease(colorSpace);
+    CFRelease(gradientColors);
+    
+    CGPoint startPoint = CGPointZero;
+    CGPoint endPoint = CGPointMake(.0f, size.height);
+    CGContextDrawLinearGradient(ctx, _gradientRef, startPoint, endPoint, kCGGradientDrawsBeforeStartLocation);
+    CGGradientRelease(_gradientRef);
+    
+    UIBezierPath *bp1 = [UIBezierPath bezierPath];
+    [bp1 moveToPoint:CGPointMake(.0f, 9.0f)];
+    [bp1 addLineToPoint:CGPointMake(15.0f, .0f)];
+    [bp1 addLineToPoint:CGPointMake(30.0f, .0f)];
+    [bp1 addLineToPoint:CGPointMake(15.0f, 9.0f)];
+    [bp1 addLineToPoint:CGPointMake(30.0f, 18.0f)];
+    [bp1 addLineToPoint:CGPointMake(15.0f, 18.0f)];
+    [bp1 closePath];
+    
+    [[UIColor blackColor] setFill];
+    [bp1 fill];
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
 @end

@@ -16,21 +16,20 @@ enum _FWTProgressViewAnimationType
 };
 typedef NSUInteger FWTProgressViewAnimationType;
 
+extern NSTimeInterval const FWTProgressViewAnimationDuration;   // default is 1.0s
+
 @interface FWTProgressView : UIView
 
 @property (nonatomic, assign) CGFloat progress;
 @property (nonatomic, assign) FWTProgressViewAnimationType animationType;
+@property (nonatomic, assign) NSTimeInterval animationDuration; 
+@property (nonatomic, assign) CGFloat contentHorizontalInset;
+@property (nonatomic, assign) CGFloat contentCornerRadius;
+@property (nonatomic, assign) UIEdgeInsets borderEdgeInsets;
 
 - (id)initWithProgressImage:(UIImage *)progressImage
                  trackImage:(UIImage *)trackImage
                 borderImage:(UIImage *)borderImage;
-
-- (id)initWithProgressImage:(UIImage *)progressImage
-                 trackImage:(UIImage *)trackImage
-                borderImage:(UIImage *)borderImage
-                extraHeight:(CGFloat)extraHeight
-       backgroundEdgeInsets:(UIEdgeInsets)backgroundEdgeInsets
-           borderEdgeInsets:(UIEdgeInsets)borderEdgeInsets;
 
 - (void)setProgress:(float)progress animated:(BOOL)animated;
 

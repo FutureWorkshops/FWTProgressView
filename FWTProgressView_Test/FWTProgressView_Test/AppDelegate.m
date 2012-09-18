@@ -24,7 +24,6 @@
     
     UIViewController *vc = [[[TableViewController alloc] init] autorelease];
     UINavigationController *nc = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
-    nc.toolbarHidden = NO;
     self.window.rootViewController = nc;
     [self.window makeKeyAndVisible];
     return YES;

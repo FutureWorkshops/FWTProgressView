@@ -24,4 +24,7 @@
 //
 + (UIImage *)iLikeTheWaves_progressImage;
 
+//
++ (UIImage *)arrow_progressImage;
+
 @end

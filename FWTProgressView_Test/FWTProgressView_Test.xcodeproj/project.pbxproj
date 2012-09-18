@@ -17,6 +17,8 @@
 		A941B7AA15F8EBF000773E14 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B7A915F8EBF000773E14 /* TableViewController.m */; };
 		A941B7BC15F8ED6600773E14 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A941B7BB15F8ED6600773E14 /* QuartzCore.framework */; };
 		A941B7CB15F8FB3A00773E14 /* UIImage+Sample.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */; };
+		A98F3E8516022A8E001C925D /* Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = A98F3E8416022A8E001C925D /* Factory.m */; };
+		A98F3E8916023216001C925D /* CustomProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A98F3E8816023216001C925D /* CustomProgressView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,10 @@
 		A941B7BB15F8ED6600773E14 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A941B7C915F8FB3A00773E14 /* UIImage+Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Sample.h"; sourceTree = "<group>"; };
 		A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Sample.m"; sourceTree = "<group>"; };
+		A98F3E8316022A8E001C925D /* Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Factory.h; sourceTree = "<group>"; };
+		A98F3E8416022A8E001C925D /* Factory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Factory.m; sourceTree = "<group>"; };
+		A98F3E8716023216001C925D /* CustomProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressView.h; sourceTree = "<group>"; };
+		A98F3E8816023216001C925D /* CustomProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,8 +96,12 @@
 				A941B79B15F8EAB200773E14 /* AppDelegate.m */,
 				A941B7A815F8EBF000773E14 /* TableViewController.h */,
 				A941B7A915F8EBF000773E14 /* TableViewController.m */,
+				A98F3E8316022A8E001C925D /* Factory.h */,
+				A98F3E8416022A8E001C925D /* Factory.m */,
 				A941B7C915F8FB3A00773E14 /* UIImage+Sample.h */,
 				A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */,
+				A98F3E8716023216001C925D /* CustomProgressView.h */,
+				A98F3E8816023216001C925D /* CustomProgressView.m */,
 				A941B79215F8EAB200773E14 /* Supporting Files */,
 			);
 			path = FWTProgressView_Test;
@@ -174,6 +184,8 @@
 				A941B79C15F8EAB200773E14 /* AppDelegate.m in Sources */,
 				A941B7AA15F8EBF000773E14 /* TableViewController.m in Sources */,
 				A941B7CB15F8FB3A00773E14 /* UIImage+Sample.m in Sources */,
+				A98F3E8516022A8E001C925D /* Factory.m in Sources */,
+				A98F3E8916023216001C925D /* CustomProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
