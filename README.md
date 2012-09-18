@@ -65,7 +65,8 @@ For a better understanding it can be useful to see the subviews/sublayers involv
 The sample project shows how to use and how to create a custom FWTProgressView.
 
 ##Licensing
-This project is [put some License here], please feel free to contribute and use it.
+Apache License Version 2.0
 
 ##Support, bugs and feature requests
-
+If you want to submit a feature request, please do so via the issue tracker on github.
+If you want to submit a bug report, please also do so via the issue tracker, including a diagnosis of the problem and a suggested fix (in code).
