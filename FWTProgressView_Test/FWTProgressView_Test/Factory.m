@@ -32,6 +32,11 @@ NSString *const kAnim       = @"kAnim";
                                                                                  borderImage:border ? border : nil] autorelease];
     
     if (anim) toReturn.animationType = [anim integerValue];
+
+    toReturn.frame = CGRectInset(toReturn.frame, .0f, -5.0f);
+    toReturn.contentHorizontalInset = 2.0f;
+    toReturn.contentCornerRadius = 9.0f;
+    toReturn.borderEdgeInsets = UIEdgeInsetsMake(3.0f, .0f, 3.0f, .0f);
     
     return toReturn;
 }

@@ -8,11 +8,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "FWTProgressView.h"
 
-#define FWTPV_EXTRA_HEIGHT_DEFAULT          10.0f
-#define FWTPV_BACKGROUND_EDGE_INSETS        UIEdgeInsetsMake(.0f, 2.0f, .0f, 2.0f)
-#define FWTPV_BORDER_EDGE_INSETS            UIEdgeInsetsMake(3.0f, .0f, 3.0f, .0f)
-
-#define FWTPV_ANIMATION_DURATION            1.0f
+NSTimeInterval const FWTProgressViewAnimationDuration = 1.0f;
 
 NSString *const keyProgressAnimation = @"keyProgressAnimation";
 
@@ -40,9 +36,7 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
 @property (nonatomic, retain) UIImageView *trackImageView;
 @property (nonatomic, retain) UIImageView *borderImageView;
 @property (nonatomic, getter = isAnimationEnabled, assign) BOOL animationEnabled;
-@property (nonatomic, assign) CGFloat extraHeight;
-@property (nonatomic, assign) UIEdgeInsets backgroundEdgeInsets;
-@property (nonatomic, assign) UIEdgeInsets borderEdgeInsets;
+
 @end
 
 
@@ -55,6 +49,10 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
 
 @synthesize progressLayer = _progressLayer;
 @synthesize contentView = _contentView;
+
+@synthesize contentHorizontalInset = _contentHorizontalInset;
+@synthesize contentCornerRadius = _contentCornerRadius;
+@synthesize borderEdgeInsets = _borderEdgeInsets;
 
 #pragma mark - Overrides
 - (void)dealloc
@@ -87,7 +85,6 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
 - (void)setFrame:(CGRect)frame
 {
     CGRect previous = [[self valueForKey:@"frame"] CGRectValue];
-    frame.size.height = self.progressImage.size.height + self.extraHeight;
     [super setFrame:frame];
     
     if (CGRectEqualToRect(frame, CGRectZero))
@@ -225,12 +222,12 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
     CGSize progressImageSize = self.progressImage.size;
     
     //  container frame and cornerRadius
-    CGRect backgroundContainerFrame = UIEdgeInsetsInsetRect(self.bounds, self.backgroundEdgeInsets);
-    backgroundContainerFrame.origin.y += (CGRectGetHeight(backgroundContainerFrame)-progressImageSize.height)*.5f;
-    backgroundContainerFrame.size.height = progressImageSize.height;
-    backgroundContainerFrame = CGRectIntegral(backgroundContainerFrame);
-    self.contentView.frame = backgroundContainerFrame;
-    self.contentView.layer.cornerRadius = CGRectGetMidY(self.contentView.bounds);
+    CGRect contentFrame = CGRectInset(self.bounds, self.contentHorizontalInset, .0f);
+    contentFrame.origin.y += (CGRectGetHeight(contentFrame)-progressImageSize.height)*.5f;
+    contentFrame.size.height = progressImageSize.height;
+    contentFrame = CGRectIntegral(contentFrame);
+    self.contentView.frame = contentFrame;
+    self.contentView.layer.cornerRadius = self.contentCornerRadius;
     
     //  even is better
     CGRect adjustedProgressLayerFrame = self.contentView.bounds;
@@ -252,7 +249,7 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
     [CATransaction commit];
     self.progressLayer.backgroundColor = [[UIColor colorWithPatternImage:self.progressImage] CGColor];
     
-    //  track frame - bounds reflect the progress
+    //  track frame - bounds reflect the current progress
     self.trackImageView.frame = self.contentView.bounds;
     self.trackImageView.bounds = [self _trackBoundsForProgress:self.progress];
     
@@ -314,33 +311,18 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
 #pragma mark - Public
 - (id)initWithProgressImage:(UIImage *)progressImage trackImage:(UIImage *)trackImage borderImage:(UIImage *)borderImage
 {
-    return [self initWithProgressImage:progressImage
-                            trackImage:trackImage
-                           borderImage:borderImage
-                           extraHeight:FWTPV_EXTRA_HEIGHT_DEFAULT
-                  backgroundEdgeInsets:FWTPV_BACKGROUND_EDGE_INSETS
-                      borderEdgeInsets:FWTPV_BORDER_EDGE_INSETS];
-}
-
-- (id)initWithProgressImage:(UIImage *)progressImage
-                 trackImage:(UIImage *)trackImage
-                borderImage:(UIImage *)borderImage
-                extraHeight:(CGFloat)extraHeight
-       backgroundEdgeInsets:(UIEdgeInsets)backgroundEdgeInsets
-           borderEdgeInsets:(UIEdgeInsets)borderEdgeInsets
-{
     if ((self = [super initWithFrame:CGRectZero]))
     {
         self.progressImage = progressImage ? [self _flippedImage:progressImage] : [self _flippedImage:[FWTProgressView _progressImage]];  //  cg draws flipped
         self.trackImage = trackImage ? trackImage : [FWTProgressView _trackImage];
         self.borderImage = borderImage ? borderImage : [FWTProgressView _borderImage];
-        self.extraHeight = extraHeight;
-        self.backgroundEdgeInsets = backgroundEdgeInsets;
-        self.borderEdgeInsets = borderEdgeInsets;
         self.animationType = FWTProgressViewAnimationTypeFromLeftToRight;
-        self.animationDuration = FWTPV_ANIMATION_DURATION;
+        self.animationDuration = FWTProgressViewAnimationDuration;
+        self.contentHorizontalInset = .0f;
+        self.contentCornerRadius = .0f;
+        self.borderEdgeInsets = UIEdgeInsetsZero;
         
-        self.frame = CGRectMake(.0f, .0f, .0f, self.progressImage.size.height + self.extraHeight);
+        self.frame = CGRectMake(.0f, .0f, .0f, self.progressImage.size.height);
         
         [self _registerToApplicationNotifications];
     }
@@ -372,7 +354,13 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
 
 + (id)defaultProgressView
 {
-    return [[[FWTProgressView alloc] init] autorelease];
+    FWTProgressView *toReturn = [[[FWTProgressView alloc] init] autorelease];
+    toReturn.frame = CGRectInset(toReturn.frame, .0f, -5.0f);
+    toReturn.contentHorizontalInset = 2.0f;
+    toReturn.contentCornerRadius = toReturn.progressImage.size.height*.5f;
+    toReturn.borderEdgeInsets = UIEdgeInsetsMake(3.0f, .0f, 3.0f, .0f);
+    
+    return toReturn;
 }
 
 #pragma mark - UIImage
