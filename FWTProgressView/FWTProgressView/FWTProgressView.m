@@ -162,7 +162,7 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
 
 - (void)setAnimationEnabled:(BOOL)enabled
 {
-    if (self->_animationEnabled != enabled && [self _isProgressImageAnimationEnabled])
+    if ([self _isProgressImageAnimationEnabled])
     {
         self->_animationEnabled = enabled;
         
