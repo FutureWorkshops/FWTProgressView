@@ -57,12 +57,25 @@ For a better understanding it can be useful to see the subviews/sublayers involv
 	- **borderView** {borderEdgeInsets}
 
 ##For your interest
+The class method **defaultProgressView** creates for you the following images:
+
 * progressImage		![FWTProgressView progressImage](http://grab.by/g9Lq)
 * trackImage		![FWTProgressView trackImage](http://grab.by/g9Ly)
 * borderImage		![FWTProgressView borderImage](http://grab.by/g9LA) 
 
 ##Demo
 The sample project shows how to use and how to create a custom FWTProgressView.
+If you don't have time to read it this is what you need:
+
+    // i'm happy with the default
+    self.progressView = [FWTProgressView defaultProgressView];
+    [self.view addSubview:self.progressView];
+    
+	// set the frame width
+    CGRect frame = CGRectInset(self.view.bounds, 10.0f, .0f);
+    frame.size.height = self.progressView.frame.size.height;
+    self.progressView.frame = frame;
+
 
 ##Licensing
 Apache License Version 2.0

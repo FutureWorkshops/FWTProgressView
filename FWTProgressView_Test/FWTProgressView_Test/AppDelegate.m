@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "TableViewController.h"
+#import "SamplePickerViewController.h"
 
 @implementation AppDelegate
 
@@ -22,7 +22,7 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.window.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
-    UIViewController *vc = [[[TableViewController alloc] init] autorelease];
+    UIViewController *vc = [[[SamplePickerViewController alloc] init] autorelease];
     UINavigationController *nc = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
     self.window.rootViewController = nc;
     [self.window makeKeyAndVisible];

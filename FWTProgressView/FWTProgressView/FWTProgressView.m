@@ -72,16 +72,6 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
     [super dealloc];
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
-    if ((self = [self initWithProgressImage:nil trackImage:nil borderImage:nil]))
-    {
-        self.frame = frame;
-    }
-    
-    return self;
-}
-
 - (void)setFrame:(CGRect)frame
 {
     CGRect previous = [[self valueForKey:@"frame"] CGRectValue];
@@ -344,21 +334,25 @@ NSString *const keyProgressAnimation = @"keyProgressAnimation";
         //
         [self _restoreAnimationWithProgress:self->_progress];
         
+        void(^updateProgressBlock)(void) = ^() {
+            self.trackImageView.bounds = [self _trackBoundsForProgress:self->_progress];
+        };
+        
         //
         if (animated)
-            [UIView animateWithDuration:.25f animations:^{ self.trackImageView.bounds = [self _trackBoundsForProgress:self->_progress]; }];
+            [UIView animateWithDuration:.25f animations:updateProgressBlock];
         else
-            self.trackImageView.bounds = [self _trackBoundsForProgress:self->_progress];
+            updateProgressBlock();
     }
 }
 
 + (id)defaultProgressView
 {
-    FWTProgressView *toReturn = [[[FWTProgressView alloc] init] autorelease];
-    toReturn.frame = CGRectInset(toReturn.frame, .0f, -5.0f);
+    FWTProgressView *toReturn = [[[FWTProgressView alloc] initWithProgressImage:nil trackImage:nil borderImage:nil] autorelease];
+    toReturn.frame = CGRectInset(toReturn.frame, .0f, -2.0f);
     toReturn.contentHorizontalInset = 2.0f;
     toReturn.contentCornerRadius = toReturn.progressImage.size.height*.5f;
-    toReturn.borderEdgeInsets = UIEdgeInsetsMake(3.0f, .0f, 3.0f, .0f);
+    toReturn.borderEdgeInsets = UIEdgeInsetsMake(.0f, .0f, .0f, .0f);
     
     return toReturn;
 }

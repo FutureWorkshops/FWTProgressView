@@ -17,6 +17,11 @@
 		A941B7AA15F8EBF000773E14 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B7A915F8EBF000773E14 /* TableViewController.m */; };
 		A941B7BC15F8ED6600773E14 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A941B7BB15F8ED6600773E14 /* QuartzCore.framework */; };
 		A941B7CB15F8FB3A00773E14 /* UIImage+Sample.m in Sources */ = {isa = PBXBuildFile; fileRef = A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */; };
+		A960FB71163A9AF50032CC66 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A960FB6E163A9AF50032CC66 /* Default-568h@2x.png */; };
+		A960FB72163A9AF50032CC66 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A960FB6F163A9AF50032CC66 /* Default.png */; };
+		A960FB73163A9AF50032CC66 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A960FB70163A9AF50032CC66 /* Default@2x.png */; };
+		A960FB76163A9EE40032CC66 /* SamplePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A960FB75163A9EE40032CC66 /* SamplePickerViewController.m */; };
+		A960FB79163A9F5A0032CC66 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A960FB78163A9F5A0032CC66 /* ViewController.m */; };
 		A98F3E8516022A8E001C925D /* Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = A98F3E8416022A8E001C925D /* Factory.m */; };
 		A98F3E8916023216001C925D /* CustomProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A98F3E8816023216001C925D /* CustomProgressView.m */; };
 /* End PBXBuildFile section */
@@ -38,6 +43,13 @@
 		A941B7BB15F8ED6600773E14 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A941B7C915F8FB3A00773E14 /* UIImage+Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Sample.h"; sourceTree = "<group>"; };
 		A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Sample.m"; sourceTree = "<group>"; };
+		A960FB6E163A9AF50032CC66 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A960FB6F163A9AF50032CC66 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		A960FB70163A9AF50032CC66 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		A960FB74163A9EE40032CC66 /* SamplePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SamplePickerViewController.h; sourceTree = "<group>"; };
+		A960FB75163A9EE40032CC66 /* SamplePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SamplePickerViewController.m; sourceTree = "<group>"; };
+		A960FB77163A9F5A0032CC66 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		A960FB78163A9F5A0032CC66 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		A98F3E8316022A8E001C925D /* Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Factory.h; sourceTree = "<group>"; };
 		A98F3E8416022A8E001C925D /* Factory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Factory.m; sourceTree = "<group>"; };
 		A98F3E8716023216001C925D /* CustomProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressView.h; sourceTree = "<group>"; };
@@ -94,14 +106,9 @@
 			children = (
 				A941B79A15F8EAB200773E14 /* AppDelegate.h */,
 				A941B79B15F8EAB200773E14 /* AppDelegate.m */,
-				A941B7A815F8EBF000773E14 /* TableViewController.h */,
-				A941B7A915F8EBF000773E14 /* TableViewController.m */,
-				A98F3E8316022A8E001C925D /* Factory.h */,
-				A98F3E8416022A8E001C925D /* Factory.m */,
-				A941B7C915F8FB3A00773E14 /* UIImage+Sample.h */,
-				A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */,
-				A98F3E8716023216001C925D /* CustomProgressView.h */,
-				A98F3E8816023216001C925D /* CustomProgressView.m */,
+				A960FB74163A9EE40032CC66 /* SamplePickerViewController.h */,
+				A960FB75163A9EE40032CC66 /* SamplePickerViewController.m */,
+				A960FB7A163AB4D00032CC66 /* Sample */,
 				A941B79215F8EAB200773E14 /* Supporting Files */,
 			);
 			path = FWTProgressView_Test;
@@ -110,12 +117,32 @@
 		A941B79215F8EAB200773E14 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A960FB6E163A9AF50032CC66 /* Default-568h@2x.png */,
+				A960FB6F163A9AF50032CC66 /* Default.png */,
+				A960FB70163A9AF50032CC66 /* Default@2x.png */,
 				A941B79315F8EAB200773E14 /* FWTProgressView_Test-Info.plist */,
 				A941B79415F8EAB200773E14 /* InfoPlist.strings */,
 				A941B79715F8EAB200773E14 /* main.m */,
 				A941B79915F8EAB200773E14 /* FWTProgressView_Test-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A960FB7A163AB4D00032CC66 /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				A960FB77163A9F5A0032CC66 /* ViewController.h */,
+				A960FB78163A9F5A0032CC66 /* ViewController.m */,
+				A941B7A815F8EBF000773E14 /* TableViewController.h */,
+				A941B7A915F8EBF000773E14 /* TableViewController.m */,
+				A98F3E8316022A8E001C925D /* Factory.h */,
+				A98F3E8416022A8E001C925D /* Factory.m */,
+				A941B7C915F8FB3A00773E14 /* UIImage+Sample.h */,
+				A941B7CA15F8FB3A00773E14 /* UIImage+Sample.m */,
+				A98F3E8716023216001C925D /* CustomProgressView.h */,
+				A98F3E8816023216001C925D /* CustomProgressView.m */,
+			);
+			name = Sample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +197,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A941B79615F8EAB200773E14 /* InfoPlist.strings in Resources */,
+				A960FB71163A9AF50032CC66 /* Default-568h@2x.png in Resources */,
+				A960FB72163A9AF50032CC66 /* Default.png in Resources */,
+				A960FB73163A9AF50032CC66 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +216,8 @@
 				A941B7CB15F8FB3A00773E14 /* UIImage+Sample.m in Sources */,
 				A98F3E8516022A8E001C925D /* Factory.m in Sources */,
 				A98F3E8916023216001C925D /* CustomProgressView.m in Sources */,
+				A960FB76163A9EE40032CC66 /* SamplePickerViewController.m in Sources */,
+				A960FB79163A9F5A0032CC66 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
