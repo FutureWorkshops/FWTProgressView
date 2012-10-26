@@ -26,7 +26,7 @@ NSString *const kAnim       = @"kAnim";
     NSString *className = [dictionary valueForKey:kClassName];
     if (!className)
         className = NSStringFromClass([FWTProgressView class]);
-    
+
     FWTProgressView *toReturn = [[[NSClassFromString(className) alloc] initWithProgressImage:pattern ? pattern : nil
                                                                                   trackImage:slider ? slider : nil
                                                                                  borderImage:border ? border : nil] autorelease];
