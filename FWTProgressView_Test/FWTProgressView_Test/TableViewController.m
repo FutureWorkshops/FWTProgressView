@@ -86,7 +86,7 @@ typedef NSUInteger SliderType;
 
     self.title = @"Progress view";
     
-    self.tableView.backgroundColor = [UIColor clearColor];
+//    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorColor = [UIColor colorWithWhite:.325f alpha:1.0f];
     
     //
